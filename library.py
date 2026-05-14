@@ -4,8 +4,8 @@ print('     LIBRARY MANAGEMENT SYSTEM')
 print('=====================================')
 
 # Login Details
-username = 'admin'
-password = '1234'
+username = 'Bhavna'
+password = '123'
 
 user = input('Enter Username : ')
 pwd  = input('Enter Password : ')
@@ -70,7 +70,7 @@ if user == username and pwd == password:
                 if book_id == 1:
 
                     if book1_qty > 0:
-                        student = input('Enter Student Name : ')
+                        student_name = input('Enter Student Name : ')
                         book1_qty -= 1
                         print(book1, 'Issued Successfully')
                         print('Remaining Quantity =', book1_qty)
@@ -128,25 +128,25 @@ if user == username and pwd == password:
                 print('book_id 4.', book4)
                 print('book_id 5.', book5)
 
-                r = int(input('Enter Book Number : '))
+                retrun = int(input('Enter Book Number : '))
 
-                if r == 1:
+                if retrun == 1:
                     book1_qty += 1
                     print(book1, 'Returned Successfully')
 
-                elif r == 2:
+                elif retrun == 2:
                     book2_qty += 1
                     print(book2, 'Returned Successfully')
 
-                elif r == 3:
+                elif retrun == 3:
                     book3_qty += 1
                     print(book3, 'Returned Successfully')
 
-                elif r == 4:
+                elif retrun == 4:
                     book4_qty += 1
                     print(book4, 'Returned Successfully')
 
-                elif r == 5:
+                elif retrun == 5:
                     book5_qty += 1
                     print(book5, 'Returned Successfully')
 
@@ -186,14 +186,14 @@ if user == username and pwd == password:
 
                 print('\n============= STUDENT DETAILS =============')
 
-                s_name = input('Enter Student Name : ')
+                student_name = input('Enter Student Name : ')
                 roll = input('Enter Roll Number : ')
                 course = input('Enter Course Name : ')
                 mobile = input('Enter Mobile Number : ')
 
                 print('\nStudent Details Saved Successfully')
 
-                print('Name =', s_name)
+                print('Name =', student_name)
                 print('Roll Number =', roll)
                 print('Course =', course)
                 print('Mobile =', mobile)
