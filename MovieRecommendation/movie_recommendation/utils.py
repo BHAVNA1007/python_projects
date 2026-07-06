@@ -60,10 +60,8 @@ def get_user_choice():
 def press_enter():
     """pause the program until the user presses Enter."""
 
+
     input("\nPress Enter to continue...") 
-
-
-
 
 
 
