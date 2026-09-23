@@ -25,10 +25,10 @@ def recommend_movies():
         if movie.genre.lower() == genre:
 
             print(f"Movie  : {movie.name}")
-            print(f"Genre  : {movie.genre}")
+            #print(f"Genre  : {movie.genre}")
             print(f"Year   : {movie.year}")
             print(f"Rating : {movie.rating}")
-
+            print()
             found = True
 
     if not found:
