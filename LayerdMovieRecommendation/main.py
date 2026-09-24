@@ -1,6 +1,48 @@
 from model.movie import Movie
 from service.movie_service import MovieService
 
+
+
+'''
+#case 5
+
+movie_service = MovieService()
+id = int(input("enter movie id: "))
+delete_count = movie_service.delete_movie_by_id(id)
+'''
+
+'''
+# case 4
+
+id = int(input("Enter movie id: "))
+title = input("Enter new title: ")
+
+movie_service = MovieService()
+count = movie_service.update_title_by_id(title, id)
+
+'''
+
+'''
+# case 3
+title = input("Enter movie name: ")
+
+movie_service = MovieService()
+movies = movie_service.search_movie_by_title(title)
+for movie in movies:
+    print(movie)
+'''
+
+#case 2
+'''
+movie_service = MovieService()
+movies = movie_service.get_all_movies()
+
+for movie in movies:
+    print(movie)
+'''
+'''
+case 1
+
 movie = Movie(
     None,
     "Inception",
@@ -11,7 +53,7 @@ movie = Movie(
 
 movie_service = MovieService()
 movie_service.save_movie(movie)
-
+'''
 
 
 
