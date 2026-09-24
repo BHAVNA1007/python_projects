@@ -1,15 +1,33 @@
+from model.movie import Movie
+from service.movie_service import MovieService
+
+movie = Movie(
+    None,
+    "Inception",
+    "Sci-Fi",
+    8.8,
+    2010
+)
+
+movie_service = MovieService()
+movie_service.save_movie(movie)
+
+
+
+
+'''
 from database.connection import Database
+from service.movie_service import MovieService
 
 db = Database()
 conn = db.connect()
 
 if conn.is_connected():
     print("database connected successfully")
-
-
 conn.close()
 
-
+movie = MovieService()
+'''
 
 
 '''
@@ -66,4 +84,20 @@ database connected successfully
 5
 1
 
+'''
+'''
+
+from model.movie import Movie
+from dao.movie_dao import MovieDao
+
+movie = Movie(
+    None,
+    "Interstellar",
+    "Sci-Fi",
+    8.7,
+    2014
+)
+
+movie_dao = MovieDao()
+movie_dao.save_movie(movie)
 '''
