@@ -1,6 +1,42 @@
+
+
+
+
+
+
+
 #from model.movie import Movie
 #from service.movie_service import MovieService
 
+'''
+from service.recommendation_service import RecommendationService
+
+recommendation_service = RecommendationService()
+
+
+
+
+user_id = int(input("Enter user id: "))
+
+recommendations = recommendation_service.get_recommendations(user_id)
+
+#for movie in recommendations:
+#print("\nRecommended Movies")
+
+print("\nRecommended Movies")
+print("------------------")
+
+for movie in recommendations:
+    print("Movie ID:", movie[0])
+    print("Title:", movie[1])
+    print("Genre:", movie[2])
+    print("Rating:", movie[3])
+    print("Release Year:", movie[4])
+    print()
+'''
+
+
+'''
 from model.watchlist import Watchlist
 
 from service.watchlist_service import WatchlistService
@@ -17,6 +53,8 @@ if update_count > 0:
     print("Status updated successfully")
 else:
     print("Watchlist record not found")
+'''
+    
 
 '''
 user_id = int(input("Enter user id: "))
