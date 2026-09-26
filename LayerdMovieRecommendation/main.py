@@ -1,8 +1,115 @@
-from model.movie import Movie
-from service.movie_service import MovieService
+#from model.movie import Movie
+#from service.movie_service import MovieService
+
+from model.watchlist import Watchlist
+
+from service.watchlist_service import WatchlistService
+
+watchlist_service = WatchlistService()
+
+user_id = int(input("Enter user id: "))
+movie_id = int(input("Enter movie id: "))
+status = input("Enter new status: ")
+
+update_count = watchlist_service.update_status(user_id, movie_id, status)
+
+if update_count > 0:
+    print("Status updated successfully")
+else:
+    print("Watchlist record not found")
+
+'''
+user_id = int(input("Enter user id: "))
+movie_id = int(input("Enter movie id: "))
+status = input("Enter status: ")
+
+watchlist = Watchlist(None, user_id, movie_id, status)
+
+watchlist_service = WatchlistService()
+watchlist_service.save_in_watchlist(watchlist)
+'''
+
+'''
+id = int(input("Enter user id: "))
+
+view = watchlist_service.get_watchlist(id)
+
+for movie in view:
+    print(movie)
+'''
+
+
+'''
+#case 1:
+watchlist = Watchlist(None, 1, 1)
+watchlist_service.save_in_watchlist(watchlist)
+'''
+
+
+#from service.user_service import UserService
+
+# case 5:
+'''
+delete_count = UserService()
+user_id = int(input("Enter user id which user you want to delete: "))
+print(delete_count.delete_user_by_id(user_id))
+'''
+#Enter user id which user you want to delete: 2
+#2 : deleted successfully
+#1
 
 
 
+#case 4:
+'''
+update_count = UserService()
+user_id = int(input("Enter user id which you want to update: "))
+user_name = input("enter new name: ")
+
+print(update_count.update_user_by_id(user_name, user_id))
+'''
+#Enter user id which you want to update: 2
+#enter new name: Priyanka
+#Priyanka: user name updated successfully
+#1
+
+
+
+
+#case 3
+'''
+user = UserService()
+id = int(input("enter user id: "))
+print(user.get_user_by_id(id))
+'''
+
+'''
+case 2
+email = input("enter user email:  ")
+password = input("enter user password:  ")
+
+user = UserService()
+print(user.login_user(email, password)) 
+'''
+
+
+
+'''
+from model.user import User
+case 1
+user = User(None, "Rahul", 'rahul@gamil.com', 'abc123')
+user_service = UserService()
+user_service.save_user(user)
+
+print(user.user_id)
+print(user.name)
+print(user.email)
+print(user.password)
+'''
+
+
+
+#========================================================
 '''
 #case 5
 

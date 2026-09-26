@@ -98,7 +98,7 @@ class MovieDao:
         conn.commit()
 
         if delete_count > 0:
-            print(f"{delete_count}: movie deleted successfully ")
+            print(f"{delete_count}: movie deleted successfully")
         else:
             print("movie not found") 
 
