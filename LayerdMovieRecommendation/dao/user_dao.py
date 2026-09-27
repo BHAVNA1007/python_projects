@@ -1,3 +1,4 @@
+import mysql.connector
 from database.connection import Database
 
 class UserDao:
@@ -83,9 +84,14 @@ class UserDao:
         query = 'insert into users (name, email, password) values(%s, %s, %s)'
         data = (user.name, user.email, user.password)
 
-        cursor.execute(query, data)
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-        print("user saved successfully")
+        try:
+            cursor.execute(query, data)
+            conn.commit()
+            print("User registered successfully")
+    
+        except mysql.connector.IntegrityError:
+            print("Email already registered")
+    
+        finally:
+            cursor.close()
+            conn.close()

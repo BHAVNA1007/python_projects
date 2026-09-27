@@ -1,3 +1,4 @@
+
 from model.watchlist import Watchlist
 from database.connection import Database
 
@@ -46,9 +47,10 @@ class WatchListDao:
        conn = db.connect()
        cursor = conn.cursor()
    
-       query = "SELECT m.movie_id, m.title, m.genre, m.rating, m.release_year FROM watchlist w JOIN movies m ON w.movie_id = m.movie_id WHERE w.user_id = %s"
+       query ="SELECT m.movie_id, m.title, m.genre, m.rating,m.release_year, w.status FROM watchlist w JOIN movies m ON w.movie_id = m.movie_id WHERE w.user_id = %s"
    
        cursor.execute(query, (user_id,))
+   
        rows = cursor.fetchall()
    
        cursor.close()
@@ -68,6 +70,7 @@ class WatchListDao:
     
         cursor.execute(query, data)
         conn.commit()
+        print("Movie added to watchlist")
     
         cursor.close()
         conn.close()

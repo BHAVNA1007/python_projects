@@ -1,4 +1,561 @@
+from model.user import User
+from service.user_service import UserService
 
+from model.watchlist import Watchlist
+from service.watchlist_service import WatchlistService
+
+from model.movie import Movie
+from service.movie_service import MovieService
+
+from service.recommendation_service import RecommendationService
+
+from utils.validators import validate_id
+from utils.validators import validate_required
+from utils.validators import validate_rating
+from utils.validators import validate_release_year
+from utils.validators import validate_choice
+from utils.validators import validate_status
+
+
+while True:
+
+    print("""========== MOVIE RECOMMENDATION SYSTEM ==========
+
+1. User Management
+2. Movie Management
+3. Watchlist
+4. Recommendations
+5. Exit
+
+    """)
+
+    choice = input("Enter your choice: ")
+
+    if not validate_choice(choice, 1, 5):
+        print("Invalid choice")
+        continue
+
+    choice = int(choice)
+
+    match choice:
+
+        # ================= USER MANAGEMENT =================
+
+        case 1:
+            print("""========== USER MANAGEMENT ==========
+
+1. Register User
+2. Login User
+3. Get User by ID
+4. Update User
+5. Delete User
+6. Back
+
+            """)
+
+            user_choice = input("Enter your choice: ")
+
+            if not validate_choice(user_choice, 1, 6):
+                print("Invalid user menu choice")
+                continue
+
+            user_choice = int(user_choice)
+
+            match user_choice:
+
+                case 1:
+                    print("========== REGISTER USER ==========")
+
+                    name = input("Enter name: ")
+
+                    if not validate_required(name):
+                        print("User name cannot be empty")
+                        continue
+
+                    email = input("Enter email: ")
+
+                    if not validate_required(email):
+                        print("User email cannot be empty")
+                        continue
+
+                    password = input("Enter password: ")
+
+                    if not validate_required(password):
+                        print("User password cannot be empty")
+                        continue
+
+                    user = User(None, name, email, password)
+
+                    user_service = UserService()
+                    user_service.save_user(user)
+
+                case 2:
+                    print("========== LOGIN USER ==========")
+
+                    email = input("Enter email: ")
+
+                    if not validate_required(email):
+                        print("User email cannot be empty")
+                        continue
+
+                    password = input("Enter password: ")
+
+                    if not validate_required(password):
+                        print("User password cannot be empty")
+                        continue
+
+                    user_service = UserService()
+                    user = user_service.login_user(email, password)
+
+                    if user:
+                        print("Login successful")
+                        print("Welcome,", user[1])
+                    else:
+                        print("Invalid email or password")
+
+                case 3:
+                    print("========== GET USER BY ID ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    user_service = UserService()
+                    user = user_service.get_user_by_id(user_id)
+
+                    if user:
+                        print("\nUser Details")
+                        print("------------")
+                        print("User ID:", user[0])
+                        print("Name:", user[1])
+                        print("Email:", user[2])
+                    else:
+                        print("User not found")
+
+                case 4:
+                    print("========== UPDATE USER ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    name = input("Enter new name: ")
+
+                    if not validate_required(name):
+                        print("Name cannot be empty")
+                        continue
+
+                    user_service = UserService()
+
+                    update_count = user_service.update_name_by_id(
+                        user_id,
+                        name
+                    )
+
+                    if update_count > 0:
+                        print("User updated successfully")
+                    else:
+                        print("User not found")
+
+                case 5:
+                    print("========== DELETE USER ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    user_service = UserService()
+
+                    delete_count = user_service.delete_user_by_id(
+                        user_id
+                    )
+
+                    if delete_count > 0:
+                        print("User deleted successfully")
+                    else:
+                        print("User not found")
+
+                case 6:
+                    continue
+
+                case _:
+                    print("Invalid user menu choice")
+
+        # ================= MOVIE MANAGEMENT =================
+
+        case 2:
+            print("""========== MOVIE MANAGEMENT ==========
+
+1. Add Movie
+2. View Movies
+3. Search Movie
+4. Update Movie
+5. Delete Movie
+6. Back
+
+    """)
+
+            movie_choice = input("Enter your choice: ")
+
+            if not validate_choice(movie_choice, 1, 6):
+                print("Invalid movie menu choice")
+                continue
+
+            movie_choice = int(movie_choice)
+
+            match movie_choice:
+
+                case 1:
+                    print("========== ADD MOVIE ==========")
+
+                    title = input("Enter movie title: ")
+
+                    if not validate_required(title):
+                        print("Movie title cannot be empty")
+                        continue
+
+                    genre = input("Enter genre: ")
+
+                    if not validate_required(genre):
+                        print("Genre cannot be empty")
+                        continue
+
+                    rating = input("Enter rating: ")
+
+                    if not validate_rating(rating):
+                        print("Invalid rating. Enter a value between 0 and 10")
+                        continue
+
+                    rating = float(rating)
+
+                    release_year = input("Enter release year: ")
+                    
+                    if not validate_release_year(release_year):
+                        print("Invalid release year")
+                        continue
+                    
+                    release_year = int(release_year)
+
+                    movie = Movie(
+                        None,
+                        title,
+                        genre,
+                        rating,
+                        release_year
+                    )
+
+                    movie_service = MovieService()
+                    movie_service.save_movie(movie)
+
+                case 2:
+                    print("========== VIEW MOVIES ==========")
+
+                    movie_service = MovieService()
+                    movies = movie_service.get_all_movies()
+
+                    if movies:
+                        for movie in movies:
+                            print("\nMovie ID:", movie[0])
+                            print("Title:", movie[1])
+                            print("Genre:", movie[2])
+                            print("Rating:", movie[3])
+                            print("Release Year:", movie[4])
+                    else:
+                        print("No movies found")
+
+                case 3:
+                    print("========== SEARCH MOVIE ==========")
+
+                    title = input("Enter movie title: ")
+
+                    if not validate_required(title):
+                        print("Title cannot be empty")
+                        continue
+
+                    movie_service = MovieService()
+                    movies = movie_service.search_movie_by_title(title)
+
+                    if movies:
+                        for movie in movies:
+                            print("\nMovie ID:", movie[0])
+                            print("Title:", movie[1])
+                            print("Genre:", movie[2])
+                            print("Rating:", movie[3])
+                            print("Release Year:", movie[4])
+                    else:
+                        print("Movie not found")
+
+                case 4:
+                    print("========== UPDATE MOVIE ==========")
+
+                    movie_id = input("Enter movie id: ")
+
+                    if not validate_id(movie_id):
+                        print("Invalid movie id")
+                        continue
+
+                    movie_id = int(movie_id)
+
+                    title = input("Enter new title: ")
+
+                    if not validate_required(title):
+                        print("Movie title cannot be empty")
+                        continue
+
+                    movie_service = MovieService()
+
+                    update_count = movie_service.update_title_by_id(
+                        title,
+                        movie_id
+                    )
+
+                    if update_count > 0:
+                        print("Movie updated successfully")
+                    else:
+                        print("Movie not found")
+
+                case 5:
+                    print("========== DELETE MOVIE ==========")
+
+                    movie_id = input("Enter movie id: ")
+
+                    if not validate_id(movie_id):
+                        print("Invalid movie id")
+                        continue
+
+                    movie_id = int(movie_id)
+
+                    movie_service = MovieService()
+
+                    delete_count = movie_service.delete_movie_by_id(
+                        movie_id
+                    )
+
+                    if delete_count > 0:
+                        print("Movie deleted successfully")
+                    else:
+                        print("Movie not found")
+
+                case 6:
+                    continue
+
+                case _:
+                    print("Invalid movie menu choice")
+
+        # ================= WATCHLIST =================
+
+        case 3:
+            print("""========== WATCHLIST ==========
+
+1. Add to Watchlist
+2. View Watchlist
+3. Update Status
+4. Remove from Watchlist
+5. Back
+
+    """)
+
+            watchlist_choice = input("Enter your choice: ")
+
+            if not validate_choice(watchlist_choice, 1, 5):
+                print("Invalid user menu choice")
+                continue
+
+            watchlist_choice = int(watchlist_choice)
+
+            match watchlist_choice:
+
+                case 1:
+                    print("========== ADD TO WATCHLIST ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    movie_id = input("Enter movie id: ")
+
+                    if not validate_id(movie_id):
+                        print("Invalid movie id")
+                        continue
+
+                    movie_id = int(movie_id)
+
+                    status = input("Enter status: ")
+
+                    if not validate_status(status):
+                        print("Invalid status. Use 'Want to Watch' or 'Watched'")
+                        continue
+                    
+                    watchlist = Watchlist(
+                        None,
+                        user_id,
+                        movie_id,
+                        status
+                    )
+
+                    watchlist_service = WatchlistService()
+                    watchlist_service.save_in_watchlist(
+                        watchlist
+                    )
+
+                case 2:
+                    print("========== VIEW WATCHLIST ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    watchlist_service = WatchlistService()
+                    movies = watchlist_service.get_watchlist(
+                        user_id
+                    )
+
+                    if movies:
+                        for movie in movies:
+                            print("\nMovie ID:", movie[0])
+                            print("Title:", movie[1])
+                            print("Genre:", movie[2])
+                            print("Rating:", movie[3])
+                            print("Release Year:", movie[4])
+                            print("Status:", movie[5])
+                    else:
+                        print("Watchlist is empty")
+
+                case 3:
+                    print("========== UPDATE WATCHLIST STATUS ==========")
+
+                    user_id = input("Enter user id: ")
+
+                    if not validate_id(user_id):
+                        print("Invalid user id")
+                        continue
+
+                    user_id = int(user_id)
+
+                    movie_id = input("Enter movie id: ")
+
+                    if not validate_id(movie_id):
+                        print("Invalid movie id")
+                        continue
+
+                    movie_id = int(movie_id)
+
+                    status = input("Enter new status: ")
+
+                    if not validate_required(status):
+                        print("Status cannot be empty")
+                        continue
+
+                    watchlist_service = WatchlistService()
+
+                    update_count = watchlist_service.update_status(
+                        user_id,
+                        movie_id,
+                        status
+                    )
+
+                    if update_count > 0:
+                        print("Status updated successfully")
+                    else:
+                        print("Watchlist record not found")
+
+                case 4:
+                    print("========== REMOVE FROM WATCHLIST ==========")
+
+                    watchlist_id = input(
+                        "Enter watchlist id: "
+                    )
+
+                    if not validate_id(watchlist_id):
+                        print("Invalid watchlist id")
+                        continue
+
+                    watchlist_id = int(watchlist_id)
+
+                    watchlist_service = WatchlistService()
+
+                    delete_count = (
+                        watchlist_service.remove_from_watchlist(
+                            watchlist_id
+                        )
+                    )
+
+                    if delete_count > 0:
+                        print("Movie removed from watchlist")
+                    else:
+                        print("Watchlist record not found")
+
+                case 5:
+                    continue
+
+                case _:
+                    print("Invalid watchlist menu choice")
+
+        # ================= RECOMMENDATIONS =================
+
+        case 4:
+            print("========== RECOMMENDATIONS ==========")
+
+            user_id = input("Enter user id: ")
+
+            if not validate_id(user_id):
+                print("Invalid user id")
+                continue
+
+            user_id = int(user_id)
+
+            recommendation_service = RecommendationService()
+
+            recommendations = (
+                recommendation_service.get_recommendations(
+                    user_id
+                )
+            )
+
+            if recommendations:
+                print("\nRecommended Movies")
+                print("------------------")
+
+                for movie in recommendations:
+                    print("Movie ID:", movie[0])
+                    print("Title:", movie[1])
+                    print("Genre:", movie[2])
+                    print("Rating:", movie[3])
+                    print("Release Year:", movie[4])
+                    print()
+            else:
+                print("No recommendations found")
+
+        # ================= EXIT =================
+
+        case 5:
+            print(
+                "Thank you for using Movie Recommendation System."
+            )
+            break
+
+        case _:
+            print("Invalid choice")                         
 
 
 
